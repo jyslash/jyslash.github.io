@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title and page.title != "Home" %}{{ page.title }} — {% endif %}JY notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <div class="app-shell">
+
+    <nav class="nav-rail">
+      <div class="nav-header">
+        <a href="{{ '/' | relative_url }}" class="site-title" data-url="{{ '/' | relative_url }}">JY notes</a>
+        <div class="theme-toggle" role="group" aria-label="Color theme">
+          <button class="theme-btn" data-theme="light" title="Light mode">Light</button>
+          <button class="theme-btn" data-theme="system" title="System default">System</button>
+          <button class="theme-btn" data-theme="dark" title="Dark mode">Dark</button>
+        </div>
+      </div>
+
+      <ul class="post-list">
+        {% for post in site.posts %}
+        <li class="post-entry{% if page.url == post.url %} active{% endif %}">
+          <a href="{{ post.url | relative_url }}" class="post-link" data-url="{{ post.url | relative_url }}">
+            <span class="post-meta-date">{{ post.date | date: "%b %-d, %Y" }}</span>
+            <span class="post-nav-title">{{ post.title }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <main class="content-area" id="content-area">
+      {{ content }}
+    </main>
+
+  </div>
+  <script src="{{ '/assets/js/app.js' | relative_url }}"></script>
+</body>
+</html>
