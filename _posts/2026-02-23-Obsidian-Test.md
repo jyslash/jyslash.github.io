@@ -1,4 +1,4 @@
-# Is this title? How Obsidian would handle date? 
+# Welcome to the new world that anybody can learn anything  
 
 ### Context
 OK it looks like a typical note interface that I can just freely write anythings bubbling up in my mind. I'm currently in a journey of experiencing the AI capability with some overdue projects that I wanted to pull together. 
