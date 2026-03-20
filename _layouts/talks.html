@@ -1,0 +1,24 @@
+---
+layout: default
+---
+<div class="talks-grid-wrap">
+  {% if site.talks.size > 0 %}
+  <div class="talks-grid">
+    {% for talk in site.talks %}
+    <a class="talk-grid-card" href="{{ talk.url | relative_url }}" data-url="{{ talk.url | relative_url }}">
+      <div class="talk-thumb talk-thumb--{% if talk.thumb_type %}{{ talk.thumb_type }}{% else %}circle{% endif %}">
+        {% if talk.cover %}
+        <img src="{{ talk.cover | relative_url }}" alt="{{ talk.title }}">
+        {% endif %}
+      </div>
+      <div class="talk-grid-info">
+        <h2 class="talk-grid-title">{{ talk.title }}</h2>
+        {% if talk.description %}<p class="talk-grid-desc">{{ talk.description }}{% if talk.language %} · {{ talk.language }}{% endif %}</p>{% endif %}
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="empty-state">No talks yet.</p>
+  {% endif %}
+</div>

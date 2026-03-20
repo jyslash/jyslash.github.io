@@ -1,4 +1,8 @@
-# Approval Interface 
+---
+cover: /assets/images/posts/Gemini_Generated_Image_jc8gosjc8gosjc8g.png
+---
+
+
 
 I read an[ interesting article](https://designplusai.com/p/the-approval-interface) that the AI interface is moving into the Approval UI that AI generates big chunk of works first and then asks users for a permission to apply it to the origin. The author [Felix Haas](https://substack.com/@felixhhaas) seems to quite convinced that this is the future that enable designers to think about more critical areas rather than focusing on executing given the efficiency and continuation. The Pinterest examples were great hook that the product provide narrowing down mechanism given a first query, while the author continued that the AI chat model is not necessarily narrowing down but is more of an endless continuation. 
 
@@ -11,8 +15,3 @@ One simple example keeps me thinking about the current AI evolution. Once we hol
 At it's core, still it's a LLM - that doesn't understand the human intent but simply put together the next plausible token. And if you think about a creative work, you can easily discern that how opposite the concept is to many industry. If you only put the next predictable things in the world, who would hire you as a creative person? Probably that's the area that we hone in on more -- based on accelerated learning powered by AI, jumping into developing unique perspective earlier so that we can all push the boundaries of human intelligence further, that no model in the world ever seen yet. 
 
 I strongly believe that that's where this evolution should direct to. 
-
-
----
-## Note 
-This the first draft and is not reviewed by AI yet. All opinions are mine. 

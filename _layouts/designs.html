@@ -1,0 +1,30 @@
+---
+layout: default
+---
+{% assign categories = "Google,LINE,Naver,Side projects,Old works" | split: "," %}
+
+<div class="designs-page">
+  {% for category in categories %}
+  {% assign cat_designs = site.designs | where: "category", category | sort: "order" %}
+  <section class="designs-section">
+    <div class="designs-section-label">
+      <span class="designs-section-label-text">{{ category }}</span>
+    </div>
+    <div class="designs-section-cards">
+      {% for design in cat_designs %}
+      <a class="design-card" href="{{ design.url | relative_url }}" data-url="{{ design.url | relative_url }}">
+        <div class="design-card-thumb">
+          {% if design.cover %}
+          <img src="{{ design.cover | relative_url }}" alt="{{ design.title }}">
+          {% endif %}
+        </div>
+        <div class="design-card-info">
+          <h2 class="design-card-title">{{ design.title }}</h2>
+          {% if design.description %}<p class="design-card-role">{{ design.description }}</p>{% endif %}
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</div>

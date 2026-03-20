@@ -1,4 +1,4 @@
-title: JY notes
+title: Jungyoung Lee
 description: A personal homepage built with Jekyll and GitHub Pages.
 url: "" # e.g. https://jyslash.github.io
 
@@ -7,6 +7,15 @@ theme: minima
 # Build settings
 markdown: kramdown
 permalink: /:year/:month/:day/:title/
+
+# Collections
+collections:
+  designs:
+    output: true
+    permalink: /designs/:title/
+  talks:
+    output: true
+    permalink: /talks/:title/
 
 # Exclude from build output
 exclude:

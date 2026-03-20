@@ -1,7 +1,21 @@
 ---
 layout: default
 ---
-<div class="home-welcome">
-  <h1 class="home-title">JY notes</h1>
-  <p class="home-subtitle">Select a post from the left to start reading.</p>
+<div class="posts-feed">
+  {% for post in site.posts %}
+  <article class="feed-post">
+    <time class="feed-post-date" datetime="{{ post.date | date_to_xmlschema }}">
+      {{ post.date | date: "%b %-d, %Y" }}
+    </time>
+    <div class="feed-post-content">
+      <h2 class="feed-post-title">{{ post.title | default: "Untitled" }}</h2>
+      <div class="feed-post-image">
+        {% if post.cover %}
+        <img data-src="{{ post.cover | relative_url }}" alt="{{ post.title }}" loading="lazy">
+        {% endif %}
+      </div>
+      <div class="feed-post-body">{{ post.content }}</div>
+    </div>
+  </article>
+  {% endfor %}
 </div>

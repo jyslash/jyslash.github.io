@@ -1,9 +1,9 @@
-# Welcome to the new world that anybody can learn anything  
+---
+cover: /assets/images/posts/black-tourmaline-blog-banner_1.webp
+---
 
-### Context
 OK it looks like a typical note interface that I can just freely write anythings bubbling up in my mind. I'm currently in a journey of experiencing the AI capability with some overdue projects that I wanted to pull together. 
 
-### Project
 There are a few projects that I'm exploring now with AI. 
 1) Personal command center with a combination of personal notification and news stream tailored for my interests 
 2) Personal github site that supports static homepage 

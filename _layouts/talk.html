@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<article class="design">
+  <header class="design-header">
+    <h1 class="design-title">{{ page.title }}</h1>
+    <div class="design-meta">
+      <time class="design-date" datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: "%B %-d, %Y" }}
+      </time>
+    </div>
+  </header>
+  <div class="design-body">
+    {{ content }}
+  </div>
+</article>

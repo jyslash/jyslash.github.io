@@ -1,0 +1,45 @@
+---
+layout: default
+---
+<article class="design">
+  <header class="design-header">
+    <h1 class="design-title">{{ page.title }}</h1>
+    <div class="design-meta">
+      {% if page.role %}<span class="design-role">{{ page.role }}</span>{% endif %}
+      <time class="design-date" datetime="{{ page.date | date_to_xmlschema }}">
+        {{ page.date | date: "%B %-d, %Y" }}
+      </time>
+    </div>
+  </header>
+
+  {% if page.video %}
+  <div class="design-video-wrap">
+    <video autoplay loop muted playsinline>
+      <source src="{{ page.video | relative_url }}" type="video/mp4">
+    </video>
+  </div>
+  {% endif %}
+
+  <div class="design-body">
+    {{ content }}
+  </div>
+
+  {% if page.images %}
+  <div class="design-gallery">
+    {% for image in page.images %}
+    <figure class="design-figure">
+      <img src="{{ image.src | relative_url }}" alt="{{ image.caption }}">
+      {% if image.caption %}<figcaption>{{ image.caption }}</figcaption>{% endif %}
+    </figure>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if page.links %}
+  <div class="design-links">
+    {% for link in page.links %}
+    <a href="{{ link.url }}" class="design-link-btn" target="_blank" rel="noopener">{{ link.label }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</article>
