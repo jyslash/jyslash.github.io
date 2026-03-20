@@ -48,3 +48,4 @@ helloworld/
 - Stage selectively when unrelated files are modified (e.g. don't include Obsidian workspace files or post edits in a UI fix commit)
 - `.DS_Store` is gitignored — never stage it
 - Local dev server: `bundle exec jekyll serve` → http://localhost:4000
+- **Never commit or push automatically** — only commit and push when the user explicitly asks

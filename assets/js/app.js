@@ -201,21 +201,41 @@ if (navHamburger && navMobileMenu) {
   });
 }
 
-// Footer clock
+// Footer SVG clock
 function initFooterClock() {
-  var localEl = document.getElementById('footer-time-local');
-  var seoulEl = document.getElementById('footer-time-seoul');
-  if (!localEl || !seoulEl) return;
+  var lh = document.getElementById('clock-local-hour');
+  var lm = document.getElementById('clock-local-min');
+  var ls = document.getElementById('clock-local-sec');
+  var sh = document.getElementById('clock-seoul-hour');
+  var sm = document.getElementById('clock-seoul-min');
+  var ss = document.getElementById('clock-seoul-sec');
+  if (!lh) return;
+
+  function getTimeParts(date, tz) {
+    var parts = new Intl.DateTimeFormat('en-US', {
+      hour: 'numeric', minute: 'numeric', second: 'numeric',
+      hour12: false, timeZone: tz
+    }).formatToParts(date);
+    return {
+      h: +parts.find(function(p){ return p.type === 'hour'; }).value % 12,
+      m: +parts.find(function(p){ return p.type === 'minute'; }).value,
+      s: +parts.find(function(p){ return p.type === 'second'; }).value
+    };
+  }
+
+  function rot(el, deg) { el.setAttribute('transform', 'rotate(' + deg + ',50,50)'); }
 
   function tick() {
     var now = new Date();
-    localEl.textContent = now.toLocaleTimeString('en-US', {
-      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-    });
-    seoulEl.textContent = now.toLocaleTimeString('en-US', {
-      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
-      timeZone: 'Asia/Seoul'
-    });
+    var localTz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    var l = getTimeParts(now, localTz);
+    var k = getTimeParts(now, 'Asia/Seoul');
+    rot(lh, (l.h / 12) * 360 + (l.m / 60) * 30);
+    rot(lm, (l.m / 60) * 360 + (l.s / 60) * 6);
+    rot(ls, l.s * 6);
+    rot(sh, (k.h / 12) * 360 + (k.m / 60) * 30);
+    rot(sm, (k.m / 60) * 360 + (k.s / 60) * 6);
+    rot(ss, k.s * 6);
   }
 
   tick();

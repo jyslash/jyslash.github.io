@@ -43,6 +43,11 @@
   /* Spacing */
   --component-pad: 8px;
   --feed-gap:      60px;
+
+  /* Footer (inverted) */
+  --footer-bg:     #1a1a18;
+  --footer-text:   #e6e3db;
+  --footer-muted:  rgba(230, 227, 219, 0.45);
 }
 
 /* Dark theme */
@@ -58,6 +63,11 @@ html[data-theme="dark"] {
   --accent:         #748ffc;
   --accent-soft:    rgba(116, 143, 252, 0.15);
   --nav-frosted-bg: rgba(20, 20, 19, 0.80);
+
+  /* Footer (inverted) */
+  --footer-bg:    #f0ede6;
+  --footer-text:  #1a1a18;
+  --footer-muted: rgba(26, 26, 24, 0.45);
 }
 
 /* System theme — follow OS preference */
@@ -74,6 +84,9 @@ html[data-theme="dark"] {
     --accent:         #748ffc;
     --accent-soft:    rgba(116, 143, 252, 0.15);
     --nav-frosted-bg: rgba(20, 20, 19, 0.80);
+    --footer-bg:      #f0ede6;
+    --footer-text:    #1a1a18;
+    --footer-muted:   rgba(26, 26, 24, 0.45);
   }
 }
 
@@ -803,45 +816,71 @@ body {
    Footer
    ============================================================ */
 .site-footer {
-  border-top: 1px solid var(--border);
-  padding: 24px var(--content-pad-h);
-  color: var(--text-muted);
+  background: var(--footer-bg);
+  color: var(--footer-text);
+  min-height: 200px;
+  padding: 0 var(--content-pad-h);
   font-size: var(--text-caption-1);
 }
 
 .footer-inner {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 920px;
-  gap: 16px;
-  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 48px;
+  width: 100%;
+  padding-top: 40px;
+  padding-bottom: 40px;
 }
 
-.footer-location {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.footer-icon {
-  font-size: 14px;
+.footer-location-blurb {
+  flex: 0 0 220px; /* pushes clocks to 292px viewport keyline: 24px footer-pad + 220px + 48px gap */
+  line-height: 1.6;
+  opacity: 0.6;
 }
 
 .footer-clocks {
   display: flex;
+  gap: 32px;
+}
+
+.footer-clock-unit {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 10px;
+}
+
+.footer-clock-city {
+  opacity: 0.5;
+  letter-spacing: 0.02em;
+}
+
+.clock-svg {
+  width: 80px;
+  height: 80px;
+}
+
+.footer-contact {
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
-.footer-clock {
-  display: flex;
-  gap: 4px;
+.footer-contact-heading {
+  font-size: var(--text-body-2);
+  margin-bottom: 4px;
 }
 
-.footer-clock-time {
-  font-variant-numeric: tabular-nums;
-  color: var(--text);
+.footer-contact-link {
+  color: var(--footer-text);
+  opacity: 0.45;
+  text-decoration: none;
+  transition: opacity 0.12s;
+}
+
+.footer-contact-link:hover {
+  opacity: 1;
 }
 
 /* ============================================================
