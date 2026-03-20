@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="system">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,9 @@
       <div class="nav-right">
         <h1 class="nav-tab-heading"><a href="{{ '/about/' | relative_url }}" class="nav-tab" data-url="{{ '/about/' | relative_url }}">About</a></h1>
       </div>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <span class="material-symbols-outlined theme-toggle-icon">dark_mode</span>
+      </button>
       <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
         <span class="material-symbols-outlined">menu</span>
       </button>
@@ -38,6 +41,26 @@
   <main class="content-area" id="content-area">
     {{ content }}
   </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-location">
+        <span class="material-symbols-outlined footer-icon">location_on</span>
+        San Francisco, CA
+      </span>
+      <span class="footer-clocks">
+        <span class="footer-clock">
+          <span class="footer-clock-label">Local</span>
+          <span class="footer-clock-time" id="footer-time-local">--:--</span>
+        </span>
+        <span class="footer-clock-sep">·</span>
+        <span class="footer-clock">
+          <span class="footer-clock-label">Seoul</span>
+          <span class="footer-clock-time" id="footer-time-seoul">--:--</span>
+        </span>
+      </span>
+    </div>
+  </footer>
 
   <script src="{{ '/assets/js/app.js' | relative_url }}"></script>
 </body>

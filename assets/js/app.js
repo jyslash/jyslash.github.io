@@ -8,10 +8,29 @@ function applyTheme(theme) {
   localStorage.setItem(THEME_KEY, theme);
 }
 
+function updateThemeIcon() {
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  var current = document.documentElement.getAttribute('data-theme');
+  var isDark = current === 'dark' ||
+    (current === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  btn.querySelector('.theme-toggle-icon').textContent = isDark ? 'light_mode' : 'dark_mode';
+}
+
 (function initTheme() {
-  var saved = localStorage.getItem(THEME_KEY) || 'system';
+  var saved = localStorage.getItem(THEME_KEY) || 'light';
   applyTheme(saved);
+  updateThemeIcon();
 })();
+
+document.addEventListener('click', function (e) {
+  if (!e.target.closest('#theme-toggle')) return;
+  var current = document.documentElement.getAttribute('data-theme');
+  var isDark = current === 'dark' ||
+    (current === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  applyTheme(isDark ? 'light' : 'dark');
+  updateThemeIcon();
+});
 
 /* ============================================================
    Frosted glass nav on scroll
@@ -66,6 +85,29 @@ function initLazyLoad() {
 }
 
 /* ============================================================
+   ASCII wave animation (About page)
+   ============================================================ */
+var ASCII_WAVE_FRAMES = [
+  [' \\o/ ', '  |  ', ' / \\ '],
+  [' \\o  ', '  |\\  ', ' / \\ '],
+  ['  o  ', ' /|  ', ' / \\ '],
+  ['  o/ ', ' /|  ', ' / \\ '],
+  [' \\o/ ', '  |  ', ' / \\ '],
+];
+
+var _waveInterval = null;
+
+function initAsciiWave() {
+  var el = document.getElementById('ascii-wave');
+  if (_waveInterval) { clearInterval(_waveInterval); _waveInterval = null; }
+  if (!el) return;
+  var frame = 0;
+  function draw() { el.textContent = ASCII_WAVE_FRAMES[frame].join('\n'); frame = (frame + 1) % ASCII_WAVE_FRAMES.length; }
+  draw();
+  _waveInterval = setInterval(draw, 380);
+}
+
+/* ============================================================
    SPA navigation
    ============================================================ */
 var contentArea   = document.getElementById('content-area');
@@ -73,12 +115,13 @@ var navHamburger  = document.getElementById('nav-hamburger');
 var navMobileMenu = document.getElementById('nav-mobile-menu');
 
 function applyContent(incoming, url, title) {
+  if (_waveInterval) { clearInterval(_waveInterval); _waveInterval = null; }
   contentArea.innerHTML = incoming.innerHTML;
   initLazyLoad();
+  initAsciiWave();
   window.scrollTo(0, 0);
   setActiveNav(url);
   document.title = title || 'Jungyoung Lee';
-  // Close mobile menu on navigation
   if (navMobileMenu) navMobileMenu.classList.remove('open');
   if (navHamburger) navHamburger.querySelector('.material-symbols-outlined').textContent = 'menu';
 }
@@ -158,7 +201,30 @@ if (navHamburger && navMobileMenu) {
   });
 }
 
+// Footer clock
+function initFooterClock() {
+  var localEl = document.getElementById('footer-time-local');
+  var seoulEl = document.getElementById('footer-time-seoul');
+  if (!localEl || !seoulEl) return;
+
+  function tick() {
+    var now = new Date();
+    localEl.textContent = now.toLocaleTimeString('en-US', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    });
+    seoulEl.textContent = now.toLocaleTimeString('en-US', {
+      hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false,
+      timeZone: 'Asia/Seoul'
+    });
+  }
+
+  tick();
+  setInterval(tick, 1000);
+}
+
 // Initialize on page load
 setActiveNav(window.location.pathname);
 initLazyLoad();
+initAsciiWave();
+initFooterClock();
 history.replaceState({ url: window.location.pathname }, document.title, window.location.pathname);

@@ -166,6 +166,28 @@ body {
   margin-left: auto;
 }
 
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: var(--component-pad);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  transition: color 0.12s, background 0.12s;
+  margin-right: 4px;
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+  background: var(--bg-hover);
+}
+
 .nav-tab {
   font-family: var(--font-subheading);
   font-size: var(--text-h1);
@@ -720,6 +742,21 @@ body {
 }
 
 /* ============================================================
+   ASCII wave
+   ============================================================ */
+.ascii-wave {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 2.5rem;
+  line-height: 1.2;
+  color: var(--text);
+  white-space: pre;
+  user-select: none;
+  margin-bottom: 32px;
+  letter-spacing: 0.05em;
+  padding: var(--component-pad);
+}
+
+/* ============================================================
    About
    ============================================================ */
 .about-content {
@@ -760,6 +797,51 @@ body {
 ::view-transition-old(top-nav),
 ::view-transition-new(top-nav) {
   animation: none;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 24px var(--content-pad-h);
+  color: var(--text-muted);
+  font-size: var(--text-caption-1);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 920px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer-location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.footer-icon {
+  font-size: 14px;
+}
+
+.footer-clocks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-clock {
+  display: flex;
+  gap: 4px;
+}
+
+.footer-clock-time {
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
 }
 
 /* ============================================================
@@ -849,6 +931,15 @@ body {
 }
 
 /* ============================================================
+   Responsive — below 768px (Narrow tablet)
+   ============================================================ */
+@media (max-width: 768px) {
+  .talks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ============================================================
    Responsive — below 640px (Mobile)
    ============================================================ */
 @media (max-width: 640px) {
@@ -904,5 +995,22 @@ body {
     padding-top: calc(var(--nav-height) + 24px);
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .designs-section {
+    grid-template-columns: 1fr;
+    padding-bottom: 40px;
+  }
+
+  .designs-section-label {
+    position: static;
+    margin-left: 0;
+    padding-top: 0;
+    margin-bottom: 12px;
+  }
+
+  .designs-section-label-text {
+    writing-mode: horizontal-tb;
+    font-size: 2rem;
   }
 }
