@@ -3,42 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if page.title and page.title != "Home" %}{{ page.title }} — {% endif %}JY notes</title>
+  <title>{% if page.title and page.title != "Home" %}{{ page.title }} — {% endif %}{{ site.title }}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Stack+Sans+Notch:wght@200..700&family=Stack+Sans+Text:wght@200..700&family=Inter:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 </head>
 <body>
-  <div class="app-shell">
 
-    <nav class="nav-rail">
-      <div class="nav-header">
-        <a href="{{ '/' | relative_url }}" class="site-title" data-url="{{ '/' | relative_url }}">JY notes</a>
-        <div class="theme-toggle" role="group" aria-label="Color theme">
-          <button class="theme-btn" data-theme="light" title="Light mode">Light</button>
-          <button class="theme-btn" data-theme="system" title="System default">System</button>
-          <button class="theme-btn" data-theme="dark" title="Dark mode">Dark</button>
-        </div>
+  <nav class="top-nav" id="top-nav">
+    <div class="nav-inner">
+      <h1 class="nav-brand"><a href="{{ '/' | relative_url }}" data-url="{{ '/' | relative_url }}"><span class="brand-full">{{ site.title }}</span><span class="brand-short">JY Lee</span></a></h1>
+      <div class="nav-center">
+        <h1 class="nav-tab-heading"><a href="{{ '/' | relative_url }}" class="nav-tab" data-url="{{ '/' | relative_url }}">Posts</a></h1>
+        <h1 class="nav-tab-heading"><a href="{{ '/designs/' | relative_url }}" class="nav-tab" data-url="{{ '/designs/' | relative_url }}">Designs</a></h1>
+        <h1 class="nav-tab-heading"><a href="{{ '/talks/' | relative_url }}" class="nav-tab" data-url="{{ '/talks/' | relative_url }}">Talks</a></h1>
       </div>
+      <div class="nav-right">
+        <h1 class="nav-tab-heading"><a href="{{ '/about/' | relative_url }}" class="nav-tab" data-url="{{ '/about/' | relative_url }}">About</a></h1>
+      </div>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+      </button>
+    </div>
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
+      <a href="{{ '/' | relative_url }}" class="nav-tab nav-mobile-link" data-url="{{ '/' | relative_url }}">Posts</a>
+      <a href="{{ '/designs/' | relative_url }}" class="nav-tab nav-mobile-link" data-url="{{ '/designs/' | relative_url }}">Designs</a>
+      <a href="{{ '/talks/' | relative_url }}" class="nav-tab nav-mobile-link" data-url="{{ '/talks/' | relative_url }}">Talks</a>
+      <a href="{{ '/about/' | relative_url }}" class="nav-tab nav-mobile-link" data-url="{{ '/about/' | relative_url }}">About</a>
+    </div>
+  </nav>
 
-      <ul class="post-list">
-        {% for post in site.posts %}
-        <li class="post-entry{% if page.url == post.url %} active{% endif %}">
-          <a href="{{ post.url | relative_url }}" class="post-link" data-url="{{ post.url | relative_url }}">
-            <span class="post-meta-date">{{ post.date | date: "%b %-d, %Y" }}</span>
-            <span class="post-nav-title">{{ post.title }}</span>
-          </a>
-        </li>
-        {% endfor %}
-      </ul>
-    </nav>
+  <main class="content-area" id="content-area">
+    {{ content }}
+  </main>
 
-    <main class="content-area" id="content-area">
-      {{ content }}
-    </main>
-
-  </div>
   <script src="{{ '/assets/js/app.js' | relative_url }}"></script>
 </body>
 </html>
