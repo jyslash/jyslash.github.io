@@ -14,7 +14,13 @@ layout: default
         <img data-src="{{ post.cover | relative_url }}" alt="{{ post.title }}" loading="lazy">
         {% endif %}
       </div>
-      <div class="feed-post-body">{{ post.content }}</div>
+      <div class="feed-post-body post-lang" data-lang="en">{{ post.content }}</div>
+      {% if post.korean_content %}
+      <div class="feed-post-body post-lang" data-lang="ko">{{ post.korean_content | markdownify }}</div>
+      <div class="post-lang-toggle-wrap">
+        <button class="lang-toggle">Show in Korean</button>
+      </div>
+      {% endif %}
     </div>
   </article>
   {% endfor %}

@@ -330,6 +330,36 @@ body {
 }
 
 /* ============================================================
+   Language toggle
+   ============================================================ */
+.post-lang[data-lang="ko"] {
+  display: none;
+}
+
+.post-lang-toggle-wrap {
+  padding: var(--component-pad);
+  margin-top: 0.5rem;
+}
+
+.lang-toggle {
+  font-family: var(--font-body);
+  font-size: var(--text-body-2);
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+}
+
+.lang-toggle:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+  background: var(--bg-hover);
+}
+
+/* ============================================================
    Post detail
    ============================================================ */
 .post {

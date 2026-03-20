@@ -8,7 +8,15 @@ layout: default
       {{ page.date | date: "%B %-d, %Y" }}
     </time>
   </header>
-  <div class="post-body">
+  <div class="post-body post-lang" data-lang="en">
     {{ content }}
   </div>
+  {% if page.korean_content %}
+  <div class="post-body post-lang" data-lang="ko">
+    {{ page.korean_content | markdownify }}
+  </div>
+  <div class="post-lang-toggle-wrap">
+    <button class="lang-toggle">Show in Korean</button>
+  </div>
+  {% endif %}
 </article>

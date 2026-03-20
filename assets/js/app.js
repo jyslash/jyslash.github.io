@@ -85,6 +85,32 @@ function initLazyLoad() {
 }
 
 /* ============================================================
+   Language toggle (posts)
+   ============================================================ */
+var LANG_KEY = 'jy-lang';
+
+function applyLang(lang) {
+  localStorage.setItem(LANG_KEY, lang);
+  document.querySelectorAll('.post-lang').forEach(function (el) {
+    el.style.display = el.dataset.lang === lang ? 'block' : 'none';
+  });
+  document.querySelectorAll('.lang-toggle').forEach(function (btn) {
+    btn.textContent = lang === 'ko' ? 'Show in English' : 'Show in Korean';
+  });
+}
+
+function initLangToggle() {
+  var btns = document.querySelectorAll('.lang-toggle');
+  if (!btns.length) return;
+  applyLang(localStorage.getItem(LANG_KEY) || 'en');
+  btns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      applyLang((localStorage.getItem(LANG_KEY) || 'en') === 'en' ? 'ko' : 'en');
+    });
+  });
+}
+
+/* ============================================================
    ASCII wave animation (About page)
    ============================================================ */
 var ASCII_WAVE_FRAMES = [
@@ -119,6 +145,7 @@ function applyContent(incoming, url, title) {
   contentArea.innerHTML = incoming.innerHTML;
   initLazyLoad();
   initAsciiWave();
+  initLangToggle();
   window.scrollTo(0, 0);
   setActiveNav(url);
   document.title = title || 'Jungyoung Lee';
@@ -246,5 +273,6 @@ function initFooterClock() {
 setActiveNav(window.location.pathname);
 initLazyLoad();
 initAsciiWave();
+initLangToggle();
 initFooterClock();
 history.replaceState({ url: window.location.pathname }, document.title, window.location.pathname);
