@@ -43,6 +43,8 @@ helloworld/
 
 ## Git Workflow
 
-- Default branch: `master`
-- Feature branches: prefixed with `claude/`
-- Open a pull request against `master` for review before merging
+- **Solo project** — push directly to `master`, no PRs needed
+- Always run `git status` before committing to review what's dirty
+- Stage selectively when unrelated files are modified (e.g. don't include Obsidian workspace files or post edits in a UI fix commit)
+- `.DS_Store` is gitignored — never stage it
+- Local dev server: `bundle exec jekyll serve` → http://localhost:4000
