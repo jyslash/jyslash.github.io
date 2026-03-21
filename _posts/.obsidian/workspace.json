@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "2026-02-19-hello-world.md",
+                "file": "2026-03-21-new-homepage.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2026-02-19-hello-world"
+              "title": "2026-03-21-new-homepage"
             }
           }
         ]
@@ -185,10 +185,12 @@
   },
   "active": "f70e4ad89e7e734e",
   "lastOpenFiles": [
+    "2026-02-19-hello-world.md",
+    "2026-03-21-new-homepage.md",
+    "Untitled.md",
     "2026-02-23-Approval-Interface.md",
     "2026-02-25-Obsidian-Test.md",
     "2026-02-22-my-first-post.md",
-    "2026-02-19-hello-world.md",
     "Pasted image 20260319224149.png"
   ]
 }
