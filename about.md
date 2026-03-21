@@ -5,5 +5,5 @@ permalink: /about/
 ---
 <div class="about-content">
   <pre class="ascii-wave" id="ascii-wave" aria-hidden="true"></pre>
-  <h1 class="about-title">About</h1>
+  <p style="font-size: var(--text-body-1); color: var(--text-muted);">More contents to come —<br>busy frying some donuts.</p>
 </div>

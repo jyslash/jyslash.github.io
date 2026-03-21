@@ -35,6 +35,7 @@
   --nav-height:     80px;
   --content-max:    656px;
   --content-pad-h:  24px;
+  --sidebar-col:    240px;
 
   /* Radii */
   --radius-container: 32px;
@@ -230,7 +231,7 @@ body {
   padding-bottom: 80px;
   padding-left: 28px;
   padding-right: var(--content-pad-h);
-  min-height: 140vh;
+  min-height: 100vh;
 }
 
 /* ============================================================
@@ -245,7 +246,7 @@ body {
 
 .feed-post {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: var(--sidebar-col) 1fr;
   gap: 0 24px;
   align-items: start;
 }
@@ -624,7 +625,7 @@ body {
 
 .designs-section {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: var(--sidebar-col) 1fr;
   gap: 0 24px;
   padding-bottom: var(--feed-gap);
   align-items: start;
@@ -672,7 +673,38 @@ body {
   background: var(--bg-hover);
 }
 
+.design-card--draft {
+  cursor: default;
+}
+
+.design-card--draft .design-card-thumb img {
+  filter: grayscale(100%);
+}
+
+.design-card--draft .design-card-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.03);
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .design-card--draft .design-card-thumb::after {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .design-card--draft .design-card-thumb::after {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+.design-card--draft:hover {
+  background: transparent;
+}
+
 .design-card-thumb {
+  position: relative;
   width: 180px;
   height: 180px;
   border-radius: 32px;
@@ -710,7 +742,8 @@ body {
    Talks listing
    ============================================================ */
 .talks-grid-wrap {
-  margin-left: calc(240px + 24px);
+  margin-left: calc(var(--sidebar-col) + 24px);
+  max-width: 960px;
 }
 
 .talks-grid {
@@ -788,15 +821,19 @@ body {
    ASCII wave
    ============================================================ */
 .ascii-wave {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 2.5rem;
-  line-height: 1.2;
+  font-size: 0.7rem;
+  line-height: 1.25;
   color: var(--text);
-  white-space: pre;
   user-select: none;
   margin-bottom: 32px;
-  letter-spacing: 0.05em;
   padding: var(--component-pad);
+  overflow: hidden;
+}
+
+.ascii-wave span {
+  display: inline-block;
+  width: 15px;
+  text-align: center;
 }
 
 /* ============================================================
@@ -979,6 +1016,10 @@ body {
    Responsive — below 960px (Tablet)
    ============================================================ */
 @media (max-width: 960px) {
+  :root {
+    --sidebar-col: 96px;
+  }
+
   .brand-full  { display: none; }
   .brand-short { display: inline; }
 
@@ -986,16 +1027,12 @@ body {
     left: 148px; /* 28px content-pad + 96px col + 24px gap */
   }
 
-  .feed-post {
-    grid-template-columns: 96px 1fr;
-  }
-
-  .designs-section {
-    grid-template-columns: 96px 1fr;
-  }
-
   .talks-grid-wrap {
-    margin-left: calc(96px + 24px);
+    margin-left: 0;
+  }
+
+  .talk-grid-title {
+    font-size: var(--text-body-1);
   }
 }
 
@@ -1048,12 +1085,12 @@ body {
     gap: 4px;
   }
 
-  .talks-grid-wrap {
-    margin-left: 0;
-  }
-
   .talks-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .talk-grid-title {
+    font-size: var(--text-body-2);
   }
 
   .feed-post-date {
@@ -1075,11 +1112,34 @@ body {
     position: static;
     margin-left: 0;
     padding-top: 0;
+    padding-left: 8px;
     margin-bottom: 12px;
   }
 
   .designs-section-label-text {
     writing-mode: horizontal-tb;
-    font-size: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .design-card-thumb {
+    width: 128px;
+    height: 128px;
+    border-radius: 24px;
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    gap: 32px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .footer-location-blurb {
+    flex: none;
+    width: 100%;
+  }
+
+  .footer-contact {
+    margin-left: 0;
   }
 }

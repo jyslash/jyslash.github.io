@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-{% assign categories = "Google,LINE,Naver,Side projects,Old works" | split: "," %}
+{% assign categories = "Google,LINE,Naver,Side Projects,Old Works" | split: "," %}
 
 <div class="designs-page">
   {% for category in categories %}
@@ -12,7 +12,11 @@ layout: default
     </div>
     <div class="designs-section-cards">
       {% for design in cat_designs %}
+      {% if design.ready %}
       <a class="design-card" href="{{ design.url | relative_url }}" data-url="{{ design.url | relative_url }}">
+      {% else %}
+      <div class="design-card design-card--draft">
+      {% endif %}
         <div class="design-card-thumb">
           {% if design.cover %}
           <img src="{{ design.cover | relative_url }}" alt="{{ design.title }}">
@@ -22,7 +26,11 @@ layout: default
           <h2 class="design-card-title">{{ design.title }}</h2>
           {% if design.description %}<p class="design-card-role">{{ design.description }}</p>{% endif %}
         </div>
+      {% if design.ready %}
       </a>
+      {% else %}
+      </div>
+      {% endif %}
       {% endfor %}
     </div>
   </section>

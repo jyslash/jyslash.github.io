@@ -1,9 +1,9 @@
 ---
 layout: design
 title: LINE Memegen
-description: Customize your favorite emoji and share with your friends
+description: In-app tool for creating and sharing personalized sticker content
 category: LINE
-order: 6
-role: Designer
-cover:
+order: 4
+role: Lead Designer
+cover: /assets/images/projects/line-memegen/cover.png
 ---

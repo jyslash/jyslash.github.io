@@ -5,7 +5,7 @@ layout: default
   {% if site.talks.size > 0 %}
   <div class="talks-grid">
     {% for talk in site.talks %}
-    <a class="talk-grid-card" href="{{ talk.url | relative_url }}" data-url="{{ talk.url | relative_url }}">
+    <a class="talk-grid-card" href="{% if talk.outlink %}{{ talk.outlink }}{% else %}{{ talk.url | relative_url }}{% endif %}"{% if talk.outlink %} target="_blank" rel="noopener"{% else %} data-url="{{ talk.url | relative_url }}"{% endif %}>
       <div class="talk-thumb talk-thumb--{% if talk.thumb_type %}{{ talk.thumb_type }}{% else %}circle{% endif %}">
         {% if talk.cover %}
         <img src="{{ talk.cover | relative_url }}" alt="{{ talk.title }}">

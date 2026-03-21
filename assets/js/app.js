@@ -111,26 +111,83 @@ function initLangToggle() {
 }
 
 /* ============================================================
-   ASCII wave animation (About page)
+   Donut animation (About page)
+   Torus projected in 3D; surface luminance drives emoji selection.
    ============================================================ */
-var ASCII_WAVE_FRAMES = [
-  [' \\o/ ', '  |  ', ' / \\ '],
-  [' \\o  ', '  |\\  ', ' / \\ '],
-  ['  o  ', ' /|  ', ' / \\ '],
-  ['  o/ ', ' /|  ', ' / \\ '],
-  [' \\o/ ', '  |  ', ' / \\ '],
-];
-
 var _waveInterval = null;
 
 function initAsciiWave() {
   var el = document.getElementById('ascii-wave');
   if (_waveInterval) { clearInterval(_waveInterval); _waveInterval = null; }
   if (!el) return;
-  var frame = 0;
-  function draw() { el.textContent = ASCII_WAVE_FRAMES[frame].join('\n'); frame = (frame + 1) % ASCII_WAVE_FRAMES.length; }
-  draw();
-  _waveInterval = setInterval(draw, 380);
+
+  var W = 38, H = 20;
+  // Luminance palette: bright → dim surface
+  var HANDS = ['🌕', '🌖', '🌗', '🌑'];
+
+  // Torus geometry constants
+  var R1 = 1, R2 = 2, K2 = 5;
+  // K1 scales the projection to fill the grid width
+  var K1 = W * K2 * 3 / (8 * (R1 + R2));
+
+  var A = 0.6, B = 0; // rotation angles
+
+  function frame() {
+    var osc  = new Array(W * H).fill(-1);        // -1 = empty
+    var zbuf = new Array(W * H).fill(-Infinity);
+
+    var cosA = Math.cos(A), sinA = Math.sin(A);
+    var cosB = Math.cos(B), sinB = Math.sin(B);
+
+    for (var theta = 0; theta < 6.283; theta += 0.06) {
+      var cosT = Math.cos(theta), sinT = Math.sin(theta);
+      for (var phi = 0; phi < 6.283; phi += 0.022) {
+        var cosP = Math.cos(phi), sinP = Math.sin(phi);
+
+        // Circle cross-section point
+        var cx = R2 + R1 * cosT;
+        var cy = R1 * sinT;
+
+        // Rotate around X-axis by A, then Z-axis by B
+        var x = cx * (cosB * cosP + sinA * sinB * sinP) - cy * cosA * sinB;
+        var y = cx * (sinB * cosP - sinA * cosB * sinP) + cy * cosA * cosB;
+        var z = K2 + cosA * cx * sinP + cy * sinA;
+        var ooz = 1 / z;
+
+        var xp = Math.round(W / 2 + K1 * ooz * x);
+        var yp = Math.round(H / 2 - K1 * ooz * y * 0.52); // 0.52 corrects char aspect
+        if (xp < 0 || xp >= W || yp < 0 || yp >= H) continue;
+
+        // Surface normal dot light direction → luminance ∈ [-1, 1]
+        var L = cosP * cosT * sinB
+              - cosA * cosT * sinP
+              - sinA * sinT
+              + cosB * (cosA * sinT - cosT * sinA * sinP);
+
+        var idx = xp + yp * W;
+        if (ooz > zbuf[idx]) {
+          zbuf[idx] = ooz;
+          osc[idx] = L > 0.5 ? 0 : L > 0 ? 1 : L > -0.4 ? 2 : 3;
+        }
+      }
+    }
+
+    var parts = [];
+    for (var r = 0; r < H; r++) {
+      for (var c = 0; c < W; c++) {
+        var v = osc[c + r * W];
+        parts.push('<span>' + (v < 0 ? ' ' : HANDS[v]) + '</span>');
+      }
+      parts.push('<br>');
+    }
+    el.innerHTML = parts.join('');
+
+    A += 0.05;
+    B += 0.022;
+  }
+
+  frame();
+  _waveInterval = setInterval(frame, 55);
 }
 
 /* ============================================================

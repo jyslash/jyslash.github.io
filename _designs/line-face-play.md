@@ -1,9 +1,9 @@
 ---
 layout: design
-title: LINE FacePlay
-description: Interactive game experiences on call
+title: LINE Face Play
+description: Real-time face-tracking AR feature for LINE Camera
 category: LINE
 order: 3
-role: Designer
-cover:
+role: Lead Designer
+cover: /assets/images/projects/line-face-play/cover.png
 ---

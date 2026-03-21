@@ -1,9 +1,9 @@
 ---
 layout: design
-title: DISCO
-description: AI curated personal news feed
+title: LINE Disco
+description: Interest-based social discovery feature for LINE
 category: LINE
-order: 5
-role: Designer
-cover:
+order: 6
+role: Lead Designer
+cover: /assets/images/projects/line-disco/cover.png
 ---

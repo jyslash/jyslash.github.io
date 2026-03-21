@@ -1,9 +1,9 @@
 ---
 layout: design
 title: LINE Design System
-description: Seamless payment for everyday life
+description: Unified design language and component library for LINE's global products
 category: LINE
-order: 2
+order: 1
 role: UX Design Lead / PM
-cover:
+cover: /assets/images/projects/line-design-system/cover.png
 ---
