@@ -278,13 +278,11 @@ body {
   overflow: hidden;
   background: var(--placeholder);
   margin-bottom: 16px;
-  aspect-ratio: 16 / 9;
 }
 
 .feed-post-image img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
   display: block;
 }
 
