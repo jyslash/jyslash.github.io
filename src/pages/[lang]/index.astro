@@ -1,0 +1,44 @@
+---
+// Journal — the home page (PRD §3.2). Skeleton until Phase 2.
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import NotTranslated from '../../components/NotTranslated.astro';
+import { byDateDesc, getItems } from '../../lib/archive';
+import { formatDate } from '../../lib/dates';
+import { langPaths, t, type Lang } from '../../lib/i18n';
+import { media } from '../../lib/media';
+
+export const getStaticPaths = langPaths;
+
+// Entries longer than this are cut off in the feed, with a link to the full entry.
+const LONG_ENTRY_CHARS = 600;
+
+const lang = Astro.params.lang as Lang;
+const items = (await getItems('journal', lang)).sort(byDateDesc);
+const entries = await Promise.all(
+  items.map(async (item) => ({
+    item,
+    Content: item.bodyEntry ? (await render(item.bodyEntry)).Content : null,
+    long: (item.bodyEntry?.body?.length ?? 0) > LONG_ENTRY_CHARS,
+  })),
+);
+---
+
+<Base lang={lang} section="journal">
+  <div class="posts-feed">
+    {entries.map(({ item, Content, long }) => (
+      <article class="feed-post">
+        {item.date && <time class="feed-post-date" datetime={item.date.iso} transition:name={`date-${item.id}`}>{formatDate(item.date, lang)}</time>}
+        <div class="feed-post-content">
+          <h2 class="feed-post-title" transition:name={`title-${item.id}`}><a href={item.url}>{item.data.title}</a></h2>
+          {item.data.photos?.map((photo, i) => (
+            <div class="feed-post-image" transition:name={`photo-${item.id}-${i}`}><img src={media(photo)} alt="" loading="lazy" /></div>
+          ))}
+          {!item.translated && <NotTranslated lang={lang} />}
+          {Content && <div class:list={['feed-post-body', 'post-body', { 'is-long': long }]}><Content /></div>}
+          {long && <a class="read-more" href={item.url}>{t(lang, 'readMore')}</a>}
+        </div>
+      </article>
+    ))}
+  </div>
+</Base>

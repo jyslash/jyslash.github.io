@@ -1,0 +1,36 @@
+---
+// A page that forwards to `/<lang>/<path>`: the visitor's saved choice, else
+// their browser language (Korean if it prefers Korean, English otherwise).
+// Without JavaScript it falls back to Korean, the source language.
+import site from '../site.config.mjs';
+
+interface Props {
+  path: string; // e.g. "projects/line-desktop/" ("" for the home page)
+}
+
+const { path } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>{site.title}</title>
+    <link rel="canonical" href={`/ko/${path}`} />
+    <script is:inline define:vars={{ path }}>
+      var lang;
+      try { lang = localStorage.getItem('jy-lang'); } catch (e) {}
+      if (lang !== 'ko' && lang !== 'en') {
+        var prefs = navigator.languages || [navigator.language || ''];
+        lang = prefs.some(function (l) { return /^ko\b/i.test(l); }) ? 'ko' : 'en';
+      }
+      location.replace('/' + lang + '/' + path + location.search + location.hash);
+    </script>
+    <noscript><meta http-equiv="refresh" content={`0;url=/ko/${path}`} /></noscript>
+  </head>
+  <body>
+    <p><a href={`/ko/${path}`}>한국어</a> · <a href={`/en/${path}`}>English</a></p>
+  </body>
+</html>

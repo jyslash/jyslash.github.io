@@ -1,0 +1,42 @@
+---
+import site from '../site.config.mjs';
+import { SECTIONS, otherLang, sectionPath, t, type Lang, type Section } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  section: Section;
+  alternate: string;
+}
+
+const { lang, section, alternate } = Astro.props;
+const other = otherLang(lang);
+const tabs = SECTIONS.map((s) => ({
+  href: sectionPath(lang, s),
+  label: t(lang, `nav.${s}`),
+  current: s === section ? ('page' as const) : undefined,
+}));
+---
+
+<nav class="top-nav" id="top-nav">
+  <div class="nav-inner">
+    <p class="nav-brand">
+      <a href={sectionPath(lang, 'journal')}><span class="brand-full">{site.title}</span><span class="brand-short">{site.shortTitle}</span></a>
+    </p>
+    <div class="nav-center">
+      {tabs.map((tab) => <a href={tab.href} class="nav-tab" aria-current={tab.current}>{tab.label}</a>)}
+    </div>
+    <div class="nav-right">
+      <a href={alternate} class="nav-tab lang-switch" hreflang={other} lang={other} data-lang-switch={other}>{t(other, 'lang.name')}</a>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" aria-label={t(lang, 'theme.toggle')}>
+      <span class="material-symbols-outlined theme-toggle-icon">dark_mode</span>
+    </button>
+    <button class="nav-hamburger" id="nav-hamburger" aria-label={t(lang, 'menu.open')} aria-expanded="false" aria-controls="nav-mobile-menu">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+  </div>
+  <div class="nav-mobile-menu" id="nav-mobile-menu">
+    {tabs.map((tab) => <a href={tab.href} class="nav-tab nav-mobile-link" aria-current={tab.current}>{tab.label}</a>)}
+    <a href={alternate} class="nav-tab nav-mobile-link lang-switch" hreflang={other} lang={other} data-lang-switch={other}>{t(other, 'lang.name')}</a>
+  </div>
+</nav>

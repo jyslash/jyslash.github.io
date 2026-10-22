@@ -1,0 +1,39 @@
+---
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import NotTranslated from '../../../components/NotTranslated.astro';
+import { getItems, type Item } from '../../../lib/archive';
+import { formatDate } from '../../../lib/dates';
+import { LANGS } from '../../../lib/i18n';
+import { media } from '../../../lib/media';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) {
+    for (const item of await getItems('journal', lang)) {
+      paths.push({ params: { lang, id: item.id }, props: { item } });
+    }
+  }
+  return paths;
+}
+
+const { item } = Astro.props as { item: Item<'journal'> };
+const { lang } = item;
+const Content = item.bodyEntry ? (await render(item.bodyEntry)).Content : null;
+---
+
+<Base lang={lang} section="journal" title={item.data.title}>
+  <div class="posts-feed">
+    <article class="feed-post">
+      {item.date && <time class="feed-post-date" datetime={item.date.iso} transition:name={`date-${item.id}`}>{formatDate(item.date, lang)}</time>}
+      <div class="feed-post-content">
+        <h1 class="feed-post-title" transition:name={`title-${item.id}`}>{item.data.title}</h1>
+        {item.data.photos?.map((photo, i) => (
+          <div class="feed-post-image" transition:name={`photo-${item.id}-${i}`}><img src={media(photo)} alt="" /></div>
+        ))}
+        {!item.translated && <NotTranslated lang={lang} />}
+        {Content && <div class="feed-post-body post-body"><Content /></div>}
+      </div>
+    </article>
+  </div>
+</Base>

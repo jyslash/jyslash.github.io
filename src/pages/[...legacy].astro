@@ -1,0 +1,15 @@
+---
+import LangRedirect from '../components/LangRedirect.astro';
+import { LEGACY } from '../lib/legacy';
+
+export function getStaticPaths() {
+  return Object.entries(LEGACY).map(([from, to]) => ({
+    params: { legacy: from.replace(/^\/|\/$/g, '') },
+    props: { to },
+  }));
+}
+
+const { to } = Astro.props;
+---
+
+<LangRedirect path={to} />

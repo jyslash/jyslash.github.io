@@ -1,0 +1,11 @@
+---
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<p class="not-translated">{t(lang, 'notTranslated')}</p>

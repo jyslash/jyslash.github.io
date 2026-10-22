@@ -1,0 +1,49 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import site from '../site.config.mjs';
+import { alternatePath, otherLang, type Lang, type Section } from '../lib/i18n';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  section: Section;
+  title?: string;
+}
+
+const { lang, section, title } = Astro.props;
+const alternate = alternatePath(Astro.url.pathname, lang);
+const pageTitle = title ? `${title} — ${site.title}` : site.title;
+---
+
+<!doctype html>
+<html lang={lang} data-section={section}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageTitle}</title>
+    <link rel="alternate" hreflang={otherLang(lang)} href={alternate} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Inter:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <!-- Apply the saved theme before first paint. -->
+    <script is:inline>
+      try {
+        document.documentElement.dataset.theme = localStorage.getItem('jy-theme') || 'light';
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    </script>
+    <ClientRouter />
+  </head>
+  <body>
+    <Nav lang={lang} section={section} alternate={alternate} />
+    <main class="content-area" id="content-area">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <script src="../scripts/site.js"></script>
+  </body>
+</html>

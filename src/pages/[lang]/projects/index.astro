@@ -1,0 +1,52 @@
+---
+// Projects — Selected works / Everything (PRD §3.4). Skeleton until Phase 3:
+// keeps the old Designs layout, grouped by org / type.
+import Base from '../../../layouts/Base.astro';
+import { getItems, type Item } from '../../../lib/archive';
+import { langPaths, t, type Lang, type UIKey } from '../../../lib/i18n';
+import { media } from '../../../lib/media';
+
+export const getStaticPaths = langPaths;
+
+const lang = Astro.params.lang as Lang;
+const items = await getItems('projects', lang);
+
+const GROUPS = ['Google', 'LINE', 'Naver', 'side', 'old', 'talk'];
+const groupOf = (p: Item<'projects'>) => (p.data.org && GROUPS.includes(p.data.org) ? p.data.org : (p.data.type ?? 'old'));
+const groups = GROUPS.map((group) => ({
+  group,
+  label: t(lang, `projects.group.${group}` as UIKey),
+  projects: items
+    .filter((p) => groupOf(p) === group)
+    .sort((a, b) => (b.date?.key ?? '').localeCompare(a.date?.key ?? '') || (a.data.order ?? 99) - (b.data.order ?? 99)),
+})).filter((g) => g.projects.length);
+const anySelected = items.some((p) => p.data.selected);
+---
+
+<Base lang={lang} section="projects">
+  <div class="designs-page" data-views data-view="selected">
+    <div class="view-switch keyline" role="group">
+      <button data-view-switch="selected" aria-pressed="true">{t(lang, 'projects.selected')}</button>
+      <button data-view-switch="everything" aria-pressed="false">{t(lang, 'projects.everything')}</button>
+    </div>
+    {!anySelected && <p class="empty-state keyline" data-show-in="selected">{t(lang, 'projects.noneSelected')}</p>}
+    {groups.map(({ label, projects }) => (
+      <section class="designs-section" data-show-in={projects.some((p) => p.data.selected) ? undefined : 'everything'}>
+        <div class="designs-section-label">
+          <span class="designs-section-label-text">{label}</span>
+        </div>
+        <div class="designs-section-cards">
+          {projects.map((p) => (
+            <a class="design-card" href={p.url} data-vt={`project-${p.id}`} data-show-in={p.data.selected ? undefined : 'everything'}>
+              <div class="design-card-thumb" transition:name={`project-cover-${p.id}`}>{p.data.cover && <img src={media(p.data.cover)} alt="" loading="lazy" />}</div>
+              <div class="design-card-info">
+                <h2 class="design-card-title" transition:name={`project-title-${p.id}`}>{p.data.title}</h2>
+                {p.data.description && <p class="design-card-role">{p.data.description}</p>}
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</Base>

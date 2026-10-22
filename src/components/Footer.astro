@@ -1,0 +1,42 @@
+---
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-location-blurb" set:html={t(lang, 'footer.location')} />
+    <div class="footer-clocks">
+      <div class="footer-clock-unit">
+        <span class="footer-clock-city">{t(lang, 'footer.localClock')}</span>
+        <svg class="clock-svg" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5" />
+          <line id="clock-local-hour" x1="50" y1="50" x2="50" y2="27" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <line id="clock-local-min" x1="50" y1="50" x2="50" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.8" />
+          <line id="clock-local-sec" x1="50" y1="55" x2="50" y2="11" stroke="#e8453c" stroke-width="1" stroke-linecap="round" opacity="0.9" />
+          <circle cx="50" cy="50" r="2.5" fill="currentColor" />
+        </svg>
+      </div>
+      <div class="footer-clock-unit">
+        <span class="footer-clock-city">{t(lang, 'footer.seoulClock')}</span>
+        <svg class="clock-svg" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5" />
+          <line id="clock-seoul-hour" x1="50" y1="50" x2="50" y2="27" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          <line id="clock-seoul-min" x1="50" y1="50" x2="50" y2="14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.8" />
+          <line id="clock-seoul-sec" x1="50" y1="55" x2="50" y2="11" stroke="#4a6cf7" stroke-width="1" stroke-linecap="round" opacity="0.9" />
+          <circle cx="50" cy="50" r="2.5" fill="currentColor" />
+        </svg>
+      </div>
+    </div>
+    <div class="footer-contact">
+      <p class="footer-contact-heading">{t(lang, 'footer.contact')}</p>
+      <a href="https://instagram.com/" class="footer-contact-link" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://linkedin.com/in/" class="footer-contact-link" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,44 @@
+---
+// Books (PRD §3.3). Skeleton until Phase 4.
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import { getItems, getPage } from '../../../lib/archive';
+import { parseDate } from '../../../lib/dates';
+import { langPaths, t, type Lang } from '../../../lib/i18n';
+import { media } from '../../../lib/media';
+
+export const getStaticPaths = langPaths;
+
+const lang = Astro.params.lang as Lang;
+// Currently reading first, then most recently finished.
+const lastDate = (b: { data: { started?: unknown; finished?: unknown } }) =>
+  parseDate(b.data.finished ?? b.data.started)?.key ?? '';
+const books = (await getItems('books', lang)).sort(
+  (a, b) => Number(b.data.status === 'reading') - Number(a.data.status === 'reading') || lastDate(b).localeCompare(lastDate(a)),
+);
+const library = await getPage('library', lang);
+const Library = library?.bodyEntry ? (await render(library.bodyEntry)).Content : null;
+---
+
+<Base lang={lang} section="books">
+  <div class="books-page keyline">
+    {library && (
+      <aside class="library-blurb">
+        {library.data.photo && <img src={media(library.data.photo)} alt="" loading="lazy" />}
+        {Library && <div class="post-body"><Library /></div>}
+        {library.data.url && <a href={library.data.url} target="_blank" rel="noopener">{new URL(library.data.url).hostname}</a>}
+      </aside>
+    )}
+    {books.length === 0 && <p class="empty-state">{t(lang, 'books.empty')}</p>}
+    <div class="books-grid">
+      {books.map((book) => (
+        <a class="book-card" href={book.url} data-vt={`book-${book.id}`}>
+          <div class="book-cover" transition:name={`book-cover-${book.id}`}>{book.data.cover && <img src={media(book.data.cover)} alt="" loading="lazy" />}</div>
+          <h2 class="book-title" transition:name={`book-title-${book.id}`}>{book.data.title}</h2>
+          <p class="book-author">{book.data.author}</p>
+          {book.data.status && <p class="book-status">{t(lang, `books.${book.data.status}`)}</p>}
+        </a>
+      ))}
+    </div>
+  </div>
+</Base>

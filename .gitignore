@@ -1,8 +1,9 @@
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-.bundle/
-vendor/
+# Build output and caches
+dist/
+.astro/
+node_modules/
+
+# OS / editor
 .DS_Store
 **/.DS_Store
+.obsidian/

@@ -1,0 +1,49 @@
+---
+import { render } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+import NotTranslated from '../../../components/NotTranslated.astro';
+import { getItems, type Item } from '../../../lib/archive';
+import { formatDate } from '../../../lib/dates';
+import { LANGS } from '../../../lib/i18n';
+import { media } from '../../../lib/media';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const lang of LANGS) {
+    for (const item of await getItems('projects', lang)) {
+      paths.push({ params: { lang, id: item.id }, props: { item } });
+    }
+  }
+  return paths;
+}
+
+const { item } = Astro.props as { item: Item<'projects'> };
+const { lang, data } = item;
+const Content = item.bodyEntry ? (await render(item.bodyEntry)).Content : null;
+const linkLabel = (url: string) => new URL(url).hostname.replace(/^www\./, '');
+---
+
+<Base lang={lang} section="projects" title={data.title}>
+  <div class="posts-feed">
+    <article class="feed-post">
+      <div class="feed-post-date entry-meta">
+        {item.date && <time datetime={item.date.iso}>{formatDate(item.date, lang)}</time>}
+        {data.role && <span>{data.role}</span>}
+      </div>
+      <div class="feed-post-content">
+        <h1 class="feed-post-title" transition:name={`project-title-${item.id}`}>{data.title}</h1>
+        {data.cover && <div class="feed-post-image" transition:name={`project-cover-${item.id}`}><img src={media(data.cover)} alt="" /></div>}
+        {!item.translated && <NotTranslated lang={lang} />}
+        {data.description && <p class="feed-post-body">{data.description}</p>}
+        {Content && <div class="feed-post-body post-body"><Content /></div>}
+        {data.links && data.links.length > 0 && (
+          <div class="design-links">
+            {data.links.map((link) => (
+              <a href={link.url} class="design-link-btn" target="_blank" rel="noopener">{link.label ?? linkLabel(link.url)}</a>
+            ))}
+          </div>
+        )}
+      </div>
+    </article>
+  </div>
+</Base>

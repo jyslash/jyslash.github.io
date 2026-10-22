@@ -1,0 +1,37 @@
+---
+// About — Highlight / Everything (PRD §3.1). Everything is the plain timeline of
+// every dated entry, oldest first. Highlight is a placeholder until Phase 6.
+import Base from '../../../layouts/Base.astro';
+import { getTimeline } from '../../../lib/archive';
+import { formatDate } from '../../../lib/dates';
+import { langPaths, t, type Lang } from '../../../lib/i18n';
+
+export const getStaticPaths = langPaths;
+
+const lang = Astro.params.lang as Lang;
+const events = await getTimeline(lang);
+---
+
+<Base lang={lang} section="about">
+  <div class="about-page" data-views data-view="highlight">
+    <div class="view-switch keyline" role="group">
+      <button data-view-switch="highlight" aria-pressed="true">{t(lang, 'about.highlight')}</button>
+      <button data-view-switch="everything" aria-pressed="false">{t(lang, 'about.everything')}</button>
+    </div>
+
+    <div class="about-content keyline" data-show-in="highlight">
+      <pre class="ascii-wave" id="ascii-wave" aria-hidden="true"></pre>
+      <p class="about-soon">{t(lang, 'about.highlightSoon')}</p>
+    </div>
+
+    <ol class="timeline" data-show-in="everything">
+      {events.map((e) => (
+        <li class="timeline-row" data-vt={e.key}>
+          <time datetime={e.date.iso}>{formatDate(e.date, lang)}</time>
+          <span class="timeline-kind">{t(lang, `kind.${e.kind}`)}</span>
+          <a href={e.url} transition:name={e.kind === 'journal' ? `title-${e.key.replace(/^journal-/, '')}` : undefined}>{e.title}</a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>
